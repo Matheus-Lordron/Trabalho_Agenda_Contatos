@@ -22,6 +22,8 @@ namespace Trabalho_Agenda_Contatos
 
             // Adiciona o repositório de contatos como um serviço Scoped.
             builder.Services.AddScoped<IContatoRepositorio, ContatoRepositorio>();
+            builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+
 
             var app = builder.Build();
 
