@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Trabalho_Agenda_Contatos.Auxiliar;
 using Trabalho_Agenda_Contatos.Data;
 using Trabalho_Agenda_Contatos.Repositorio;
 
@@ -20,9 +21,22 @@ namespace Trabalho_Agenda_Contatos
             builder.Services.AddDbContext<BancoContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("Database")));
 
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
             // Adiciona o repositório de contatos como um serviço Scoped.
             builder.Services.AddScoped<IContatoRepositorio, ContatoRepositorio>();
+
+            // Adiciona o repositório de usuários como um serviço Scoped.
             builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+
+            builder.Services.AddScoped<ISessao, Sessao>();
+
+            builder.Services.AddSession(o =>
+            {
+                o.Cookie.HttpOnly = true;
+                o.Cookie.IsEssential = true;
+            });
 
 
             var app = builder.Build();
@@ -40,7 +54,11 @@ namespace Trabalho_Agenda_Contatos
 
             app.UseRouting();
 
+            app.UseSession();
+
             app.UseAuthorization();
+
+           
 
             app.MapControllerRoute(
                 name: "default",
