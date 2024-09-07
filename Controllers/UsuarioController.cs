@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Trabalho_Agenda_Contatos.Enums;
+using Trabalho_Agenda_Contatos.Filters;
 using Trabalho_Agenda_Contatos.Models;
 using Trabalho_Agenda_Contatos.Repositorio;
 
 namespace Trabalho_Agenda_Contatos.Controllers
 {
+    [PaginaRestritaAdmin]
     public class UsuarioController : Controller
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;

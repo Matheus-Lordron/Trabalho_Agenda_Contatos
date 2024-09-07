@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Trabalho_Agenda_Contatos.Filters;
 using Trabalho_Agenda_Contatos.Models;
 using Trabalho_Agenda_Contatos.Repositorio;
 
 namespace Trabalho_Agenda_Contatos.Controllers
 {
+    [PaginaParaUsuarioLogado]
     public class ContatoController : Controller
     {
         private readonly IContatoRepositorio _contatoRepositorio;
