@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Trabalho_Agenda_Contatos.Enums;
 using Trabalho_Agenda_Contatos.Filters;
 using Trabalho_Agenda_Contatos.Models;
@@ -30,18 +29,21 @@ namespace Trabalho_Agenda_Contatos.Controllers
             return View();
         }
 
+        // Action para editar um usuário
         public IActionResult EditarUsuario(int id)
         {
             UsuarioModel usuario = _usuarioRepositorio.ListarPorId(id);
             return View(usuario);
         }
 
+        // Action para confirmar exclusão de usuário
         public IActionResult ApagarConfirmacao(int id)
         {
             UsuarioModel usuario = _usuarioRepositorio.ListarPorId(id);
             return View(usuario);
         }
 
+        // Action para apagar um usuário
         public IActionResult Apagar(int id)
         {
             try
@@ -61,7 +63,7 @@ namespace Trabalho_Agenda_Contatos.Controllers
             }
             catch (System.Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não foi possível apagar seu usuário, mais detalhes do erro:{erro.Message}";
+                TempData["MensagemErro"] = $"Ops, não foi possível apagar seu usuário, mais detalhes do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
         }
@@ -83,38 +85,44 @@ namespace Trabalho_Agenda_Contatos.Controllers
             }
             catch (System.Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não foi possível cadastrar seu usuário, tente novamente. Detalhe do erro: {erro.Message}";
+                TempData["MensagemErro"] = $"Ops, não foi possível cadastrar seu usuário. Detalhes do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
         }
 
+        // Action para alterar um usuário
         [HttpPost]
         public IActionResult Alterar(UsuarioSemSenhaModel usuarioSemSenhaModel)
         {
             try
             {
-                UsuarioModel usuario = null;
-
                 if (ModelState.IsValid)
                 {
-                    usuario = new UsuarioModel()
-                    {
-                        Id = usuarioSemSenhaModel.Id,
-                        Nome = usuarioSemSenhaModel.Nome,
-                        Login = usuarioSemSenhaModel.Login,
-                        Email = usuarioSemSenhaModel.Email,
-                        Perfil = usuarioSemSenhaModel.Perfil,
-                    };
+                    // Busca o usuário existente no banco de dados
+                    UsuarioModel usuario = _usuarioRepositorio.ListarPorId(usuarioSemSenhaModel.Id);
 
-                    usuario = _usuarioRepositorio.Atualizar(usuario);
-                    TempData["MensagemSucesso"] = "Usuário alterado com sucesso";
+                    if (usuario == null)
+                    {
+                        TempData["MensagemErro"] = "Usuário não encontrado.";
+                        return RedirectToAction("Index");
+                    }
+
+                    // Atualiza os campos herdados de PessoaModel e demais propriedades específicas de UsuarioModel
+                    usuario.Nome = usuarioSemSenhaModel.Nome;
+                    usuario.Login = usuarioSemSenhaModel.Login;
+                    usuario.Email = usuarioSemSenhaModel.Email;
+                    usuario.Perfil = usuarioSemSenhaModel.Perfil;
+
+                    _usuarioRepositorio.Atualizar(usuario);
+                    TempData["MensagemSucesso"] = "Usuário alterado com sucesso!";
                     return RedirectToAction("Index");
                 }
-                return View("EditarUsuario", usuario);
+
+                return View("EditarUsuario", usuarioSemSenhaModel);
             }
             catch (System.Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não foi possível atualizar seu usuário, tente novamente. Detalhe do erro: {erro.Message}";
+                TempData["MensagemErro"] = $"Ops, não foi possível atualizar seu usuário. Detalhes do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
         }

@@ -1,37 +1,116 @@
-﻿@model ContatoModel
+﻿@model Trabalho_Agenda_Contatos.Models.ContatoModel
+
 @{
-    ViewData["Title"] = "Editar contato";
+    ViewData["Title"] = "Editar Contato";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Editar Contato</h1>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(135deg, #4f8cff, #87cefa);
+    }
+
+    .container-edit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .edit-box {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 100%;
+    }
+
+        .edit-box h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #333;
+        }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: #333;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #4f8cff;
+        border: none;
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+        .btn-primary:hover {
+            background-color: #87cefa;
+        }
+
+    .btn-secondary {
+        background-color: #333;
+        border: none;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #555;
+        }
+</style>
+
+<div class="container-edit">
+    <div class="edit-box">
+        <h1>Editar Contato</h1>
+
+        <form asp-controller="Contato" asp-action="Alterar" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do contato">
+                @Html.ValidationMessageFor(x => x.Nome)
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do contato">
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+
+            <div class="form-group">
+                <label for="celular">Celular</label>
+                <input type="text" asp-for="Celular" class="form-control" placeholder="Digite o celular do contato">
+                @Html.ValidationMessageFor(x => x.Celular)
+            </div>
+
+            <button type="submit" class="btn btn-primary">Alterar</button>
+            <a class="btn btn-secondary mt-2" asp-controller="Contato" asp-action="Index" role="button">Voltar</a>
+        </form>
+    </div>
 </div>
-
-<form asp-controller="Contato" asp-action="Alterar" method="post">
-
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do contato">
-        @Html.ValidationMessageFor(x => x.Nome)
-    </div>
-    <br />
-
-    <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="text" asp-for="Email" class="form-control" placeholder="Digite o e-mail do contato">
-        @Html.ValidationMessageFor(x => x.Email)
-    </div>
-    <br />
-
-    <div class="form-group">
-        <label for="celular">Celular</label>
-        <input type="text" asp-for="Celular" class="form-control" placeholder="Digite o celular do contato">
-        @Html.ValidationMessageFor(x => x.Celular)
-    </div>
-    <br />
-
-    <button type="submit" class="btn btn-primary w-100">Alterar</button>
-    <a class="btn btn-secondary btn-dark w-100 mt-2" asp-controller="Contato" asp-action="Index" role="button">Voltar</a>
-</form>
-

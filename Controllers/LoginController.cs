@@ -2,7 +2,6 @@
 using Trabalho_Agenda_Contatos.Auxiliar;
 using Trabalho_Agenda_Contatos.Models;
 using Trabalho_Agenda_Contatos.Repositorio;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Trabalho_Agenda_Contatos.Controllers
 {
@@ -16,53 +15,53 @@ namespace Trabalho_Agenda_Contatos.Controllers
             _usuarioRepositorio = usuarioRepositorio;
             _sessao = sessao;
         }
-            
-        
 
+        // Exibe a página de login, redireciona para a home se já estiver logado
         public IActionResult Index()
         {
-            // Se o user tiver já logado, enviar para Home
-
-            if (_sessao.BuscarSessaoUsuario() != null) return RedirectToAction("Index", "Home");
+            if (_sessao.BuscarSessaoUsuario() != null)
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
 
+        // Ação para sair da sessão
         public IActionResult Sair()
         {
             _sessao.RemoverSessaoUsuario();
-            
             return RedirectToAction("Index", "Login");
         }
 
+        // Ação para processar o login
         [HttpPost]
         public IActionResult Entrar(LoginModel loginModel)
         {
             try
             {
-              if (ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     UsuarioModel usuario = _usuarioRepositorio.BuscarPorLogin(loginModel.Login);
 
-                   if (usuario != null)
+                    if (usuario != null)
                     {
-                        if(usuario.SenhaValida(loginModel.Senha))
+                        if (usuario.SenhaValida(loginModel.Senha))
                         {
                             _sessao.CriarSessaoUsuario(usuario);
                             return RedirectToAction("Index", "Home");
                         }
-                        TempData["MensagemErro"] = $"Senha informada é inválida, tente novamente";
-
+                        TempData["MensagemErro"] = "Senha informada é inválida, tente novamente";
                     }
-
-                    TempData["MensagemErro"] = $"Usuário e/ou senha incorreta(s), Por favor, tente novamente";
+                    else
+                    {
+                        TempData["MensagemErro"] = "Usuário e/ou senha incorreta(s), Por favor, tente novamente";
+                    }
                 }
 
-              return View("Index");
+                return View("Index");
             }
             catch (Exception erro)
             {
-                TempData["MensagemErro"] = $"Ops, não foi possível autenticar o login, mais detalhes do erro:{erro.Message}";
+                TempData["MensagemErro"] = $"Ops, não foi possível autenticar o login, mais detalhes do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
         }

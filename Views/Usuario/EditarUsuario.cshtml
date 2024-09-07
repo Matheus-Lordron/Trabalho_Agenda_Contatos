@@ -1,49 +1,120 @@
 ﻿@using Trabalho_Agenda_Contatos.Enums
-@model UsuarioModel
+@model Trabalho_Agenda_Contatos.Models.UsuarioModel
 
 @{
     ViewData["Title"] = "Editar usuário";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Editar usuário</h1>
+<style>
+    /* Estilo moderno para o formulário */
+    .form-container {
+        background-color: #f9f9f9;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: auto;
+    }
+
+        .form-container h1 {
+            color: #4f8cff;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+    .form-group label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-group input, .form-group select {
+        border: 2px solid #ddd;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #4f8cff;
+            box-shadow: 0 0 8px rgba(79, 140, 255, 0.2);
+        }
+
+    .btn-custom {
+        padding: 12px;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #4f8cff;
+        border: none;
+        color: white;
+        margin-top: 1rem;
+    }
+
+        .btn-primary:hover {
+            background-color: #87cefa;
+        }
+
+    .btn-secondary {
+        background-color: #333;
+        border: none;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #555;
+        }
+
+    .form-footer {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+<div class="form-container text-center">
+    <h1>Editar Usuário</h1>
+
+    <form asp-controller="Usuario" asp-action="Alterar" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do usuário">
+            @Html.ValidationMessageFor(x => x.Nome)
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do usuário">
+            @Html.ValidationMessageFor(x => x.Email)
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label for="login">Login</label>
+            <input type="text" asp-for="Login" class="form-control" placeholder="Digite o login do usuário">
+            @Html.ValidationMessageFor(x => x.Login)
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label for="perfil" class="form-label">Perfil</label>
+            <select asp-for="Perfil" class="form-control">
+                <option value="">Selecione</option>
+                <option value="@PerfilEnum.Admin">Administrador</option>
+                <option value="@PerfilEnum.Padrao">Padrão</option>
+            </select>
+            @Html.ValidationMessageFor(x => x.Perfil)
+        </div>
+        <br />
+
+        <div class="form-footer">
+            <button type="submit" class="btn btn-custom btn-primary">Editar</button>
+            <a class="btn btn-custom btn-secondary mt-2" asp-controller="Usuario" asp-action="Index" role="button">Voltar</a>
+        </div>
+    </form>
 </div>
-
-<form asp-controller="Usuario" asp-action="Alterar" method="post">
-
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do usuário">
-        @Html.ValidationMessageFor(x => x.Nome)
-    </div>
-    <br />
-
-    <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="text" asp-for="Email" class="form-control" placeholder="Digite o e-mail do usuário">
-        @Html.ValidationMessageFor(x => x.Email)
-    </div>
-    <br />
-
-    <div class="form-group">
-        <label for="login">Login</label>
-        <input type="text" asp-for="Login" class="form-control" placeholder="Digite o login do usuário">
-        @Html.ValidationMessageFor(x => x.Login)
-    </div>
-    <br />
-
-    <div class="form-group">
-        <label for="perfil" class="form-label">Perfil</label>
-        <select asp-for="Perfil" class="form-control">
-            <option value="">Selecione</option>
-            <option value="@PerfilEnum.Admin">Administrador</option>
-            <option value="@PerfilEnum.Padrao">Padrão</option>
-        </select>
-        @Html.ValidationMessageFor(x => x.Perfil)
-    </div>
-    <br />
-
-    <button type="submit" class="btn btn-primary w-100">Editar</button>
-    <a class="btn btn-secondary btn-dark w-100 mt-2" asp-controller="Usuario" asp-action="Index" role="button">Voltar</a>
-</form>

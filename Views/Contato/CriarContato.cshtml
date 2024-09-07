@@ -1,35 +1,112 @@
-﻿@model ContatoModel
+﻿@model Trabalho_Agenda_Contatos.Models.ContatoModel
+
 @{
-    ViewData["Title"] = "Criar contato";
+    ViewData["Title"] = "Criar Contato";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Cadastrar Contato</h1>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(135deg, #4f8cff, #87cefa);
+    }
+
+    .create-contact-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .create-contact-form {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        max-width: 450px;
+        width: 100%;
+    }
+
+        .create-contact-form h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            color: #4f8cff;
+        }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-primary {
+        background-color: #4f8cff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1.2rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #87cefa;
+        }
+
+    .btn-secondary {
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1.2rem;
+        background-color: #333;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #555;
+        }
+
+    .btn i {
+        margin-right: 5px;
+    }
+</style>
+
+<div class="create-contact-container">
+    <div class="create-contact-form">
+        <h1>Cadastrar Contato</h1>
+
+        <form asp-controller="Contato" asp-action="Criar" method="post">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do contato">
+                @Html.ValidationMessageFor(x => x.Nome)
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do contato">
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+
+            <div class="form-group">
+                <label for="celular">Celular</label>
+                <input type="text" asp-for="Celular" class="form-control" placeholder="Digite o celular do contato">
+                @Html.ValidationMessageFor(x => x.Celular)
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-save"></i> Adicionar
+            </button>
+            <a class="btn btn-secondary w-100 mt-2" asp-controller="Contato" asp-action="Index" role="button">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </a>
+        </form>
+    </div>
 </div>
-
-<form asp-controller="Contato" asp-action="Criar" method="post">
-
-    <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do contato">
-        @Html.ValidationMessageFor(x=>x.Nome)
-    </div>
-    <br />
-
-    <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="text" asp-for="Email" class="form-control" placeholder="Digite o e-mail do contato">
-        @Html.ValidationMessageFor(x => x.Email)
-    </div>
-    <br />
-
-    <div class="form-group">
-        <label for="celular">Celular</label>
-        <input type="text" asp-for="Celular" class="form-control" placeholder="Digite o celular do contato">
-        @Html.ValidationMessageFor(x => x.Celular)
-    </div>
-    <br />
-
-    <button type="submit" class="btn btn-primary w-100">Adicionar</button>
-    <a class="btn btn-secondary btn-dark w-100 mt-2" asp-controller="Contato" asp-action="Index" role="button">Voltar</a>
-</form>

@@ -1,6 +1,65 @@
 ﻿@{
     Layout = "_LayoutDeslogado";
-    ViewData["Title"] = "Pagina Restrita";
+    ViewData["Title"] = "Página Restrita";
 }
 
-<p>Seu usuário não possui permissão para acessar este módulo,<a asp-controller="Home" asp-action="Index">Clique aqui para voltar!</a></p>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .restricted-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #f64747, #f1a7f1);
+    }
+
+    .restricted-box {
+        background-color: white;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+    }
+
+        .restricted-box h1 {
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .restricted-box p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+    .btn-return {
+        padding: 12px 24px;
+        background-color: #4f8cff;
+        color: white;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-return:hover {
+            background-color: #87cefa;
+        }
+
+</style>
+
+<div class="restricted-container">
+    <div class="restricted-box">
+        <h1>Acesso Negado</h1>
+        <p>Seu usuário não possui permissão para acessar este módulo.</p>
+        <a class="btn-return" asp-controller="Home" asp-action="Index">Voltar para a Página Inicial</a>
+    </div>
+</div>

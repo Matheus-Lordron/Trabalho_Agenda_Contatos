@@ -1,66 +1,143 @@
-﻿@model List<ContatoModel>
+﻿@model List<Trabalho_Agenda_Contatos.Models.ContatoModel>
+
 @{
     ViewData["Title"] = "Listagem de contatos";
 }
 
-<div class="text-center">
+<style>
+    /* Estilo aprimorado para o título */
+    .title-container {
+        background-color: #4f8cff;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <a class="btn btn-primary" role="button" asp-controller="Contato" asp-action="CriarContato">Adicionar novo contato</a>
+        .title-container img {
+            width: 50px;
+            margin-right: 15px;
+        }
+
+        .title-container h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+    /* Estilo da tabela */
+    .table thead {
+        background-color: #4f8cff;
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f0f8ff;
+    }
+
+    .btn-primary, .btn-danger {
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+
+        .btn-primary i, .btn-danger i {
+            margin-right: 5px;
+        }
+
+    .alert {
+        position: relative;
+        padding-right: 30px;
+    }
+
+        .alert .close-alert {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+</style>
+
+<div class="container">
+    <!-- Container do título com contraste e imagem -->
+    <div class="title-container">
+        <img src="~/images/Edit_person.png" alt="Ícone de Listagem de Contatos" />
+        <h1>Listagem de Contatos</h1>
     </div>
-    <br />
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a class="btn btn-primary" role="button" asp-controller="Contato" asp-action="CriarContato">
+            <i class="fas fa-plus"></i> Adicionar Contato
+        </a>
+    </div>
 
     @if (TempData["MensagemSucesso"] != null)
     {
-        <div class="alert alert-success" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
-            @TempData["MensagemSucesso"]
+        <div class="alert alert-success">
+            <span>@TempData["MensagemSucesso"]</span>
+            <button type="button" class="close-alert" aria-label="Close">X</button>
         </div>
     }
 
     @if (TempData["MensagemErro"] != null)
     {
-        <div class="alert alert-danger" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" arial-label="Close">X</button>
-            @TempData["MensagemErro"]
+        <div class="alert alert-danger">
+            <span>@TempData["MensagemErro"]</span>
+            <button type="button" class="close-alert" aria-label="Close">X</button>
         </div>
     }
 
-    <br />
-
-    <h1 class="display-4">Listagem de contatos</h1>
-
-    <table class="table" id="table-contatos">
+    <table class="table table-hover" id="table-contatos">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">E-mail</th>
                 <th scope="col">Celular</th>
-                <th scope="col"></th>
+                <th scope="col" class="text-center">Ações</th>
             </tr>
         </thead>
         <tbody>
             @if (Model != null && Model.Any())
             {
-                foreach (ContatoModel contato in Model)
+                foreach (var contato in Model)
                 {
                     <tr>
                         <th scope="row">@contato.Id</th>
                         <td>@contato.Nome</td>
                         <td>@contato.Email</td>
                         <td>@contato.Celular</td>
-                        <td>
+                        <td class="text-center">
                             <div class="btn-group" role="group">
-                                <a role="button" class="btn btn-primary" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="EditarContato">Editar</a>
-                                <a role="button" class="btn btn-danger" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="ApagarConfirmacao">Apagar</a>
+                                <a role="button" class="btn btn-primary" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="EditarContato">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <a role="button" class="btn btn-danger" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="ApagarConfirmacao">
+                                    <i class="fas fa-trash"></i> Apagar
+                                </a>
                             </div>
                         </td>
                     </tr>
                 }
             }
-            
-
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">Nenhum contato encontrado.</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
+
+<script>
+    document.querySelectorAll('.close-alert').forEach(button => {
+        button.addEventListener('click', () => {
+            button.parentElement.style.display = 'none';
+        });
+    });
+</script>
