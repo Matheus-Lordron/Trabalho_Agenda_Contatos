@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Trabalho_Agenda_Contatos.Auxiliar;
 using Trabalho_Agenda_Contatos.Enums;
 
 namespace Trabalho_Agenda_Contatos.Models
@@ -29,7 +30,12 @@ namespace Trabalho_Agenda_Contatos.Models
 
         public bool SenhaValida(string senha)
         {
-            return Senha == senha;
+            return Senha == senha.GerarHash();
+        }
+
+        public void SetSenhaHash()
+        {
+            Senha = Senha.GerarHash();
         }
     }
     
